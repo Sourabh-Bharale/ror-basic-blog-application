@@ -1,16 +1,36 @@
-<div class="flex flex-col w-full gap-2 justify-center items-center">
-<h1 class="font-bold text-2xl"><%= @article.title %></h1>
-
-<p><%= @article.body %></p>
-    <div class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
-        <%= link_to "Edit Article", edit_article_path(@article) %>
+<div class="flex  flex-col w-full gap-2 justify-center items-center">
+    <div class="flex flex-col w-full border-2">
+        <h1 class="font-bold text-2xl"><%= @article.title %></h1>
+        <p><%= @article.body %></p>
+        <div class="flex gap-2 justify-end items-end p-2">
+            <div class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
+                <%= link_to "Edit Article", edit_article_path(@article) %>
+            </div>
+            <div class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
+                <%= link_to "Delete",article_path(@article),
+                    data: {
+                        turbo_method: :delete,
+                        turbo_confirm: "Are you sure?"
+                    }
+                %>
+            </div>
+        </div>
     </div>
-    <div class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">
-        <%= link_to "Delete",article_path(@article),
-        data: {
-            turbo_method: :delete,
-            turbo_confirm: "Are you sure?"
-        }
-    %></div>
-
+    <div class="flex flex-col border-2 rounded-xl w-full  items-center gap-2 p-2">
+        <div class="flex flex-col gap-4 w-full">
+         <h1 class="font-semibold text-xl">Comments</h1>
+            <div class="flex flex-col  gap-2">
+                <% @article.comments.each do |comment| %>
+                    <div class="flex flex-row  gap-2">
+                        <p class="font-bold"><%= comment.commenter %></p>
+                        <p><%= comment.body %></p>
+                    </div>
+                <% end %>
+            </div>
+        </div>
+        <div class="flex flex-col border-2 max-w-fit rounded-xl justify-center items-center gap-2 p-2">
+            <h1 class="font-semibold text-xl">Leave a Comment</h1>
+            <%= render 'comments/form' %>
+        </div>
+    </div>
 </div>
